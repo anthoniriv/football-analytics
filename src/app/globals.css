@@ -1,26 +1,250 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Light Mode - Indigo + Teal + Amber */
+:root {
+  --radius: 0.625rem;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-foreground: #0f172a;
+  --popover: rgba(255, 255, 255, 0.98);
+  --popover-foreground: #0f172a;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #0891b2;
+  --secondary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f59e0b;
+  --accent-foreground: #0f172a;
+  --destructive: #dc2626;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #4f46e5;
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(79, 70, 229, 0.15);
+
+  /* Extra colors for light mode */
+  --color-teal: #0891b2;
+  --color-amber: #f59e0b;
+}
+
+/* Dark Mode (default) */
+.dark {
+  --background: #0f0a1e;
+  --foreground: #e9d5ff;
+  --card: rgba(139, 92, 246, 0.1);
+  --card-foreground: #e9d5ff;
+  --popover: rgba(139, 92, 246, 0.15);
+  --popover-foreground: #e9d5ff;
+  --primary: #a78bfa;
+  --primary-foreground: #0f0a1e;
+  --secondary: rgba(139, 92, 246, 0.2);
+  --secondary-foreground: #e9d5ff;
+  --muted: rgba(139, 92, 246, 0.1);
+  --muted-foreground: #c4b5fd;
+  --accent: #a78bfa;
+  --accent-foreground: #0f0a1e;
+  --destructive: #f87171;
+  --border: rgba(167, 139, 250, 0.2);
+  --input: rgba(167, 139, 250, 0.15);
+  --ring: #a78bfa;
+  --glass: rgba(139, 92, 246, 0.1);
+  --glass-border: rgba(167, 139, 250, 0.3);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Glassmorphism utilities */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background: var(--glass);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-subtle {
+    background: var(--glass);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Gradient backgrounds */
+  .bg-gradient-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, #0f0a1e 0%, #1a1033 100%);
+  }
+
+  /* App background - adapts to theme */
+  .bg-app {
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
+  .dark .bg-app {
+    background: linear-gradient(180deg, #0f0a1e 0%, #1a1033 100%);
+  }
+
+  /* Text gradients - Light mode: Indigo to Teal */
+  .text-gradient {
+    background: linear-gradient(135deg, #4f46e5 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Text gradients - Dark mode: Purple spectrum */
+  .dark .text-gradient {
+    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects - Light mode */
+  .glow {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
+  }
+
+  .glow-strong {
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.3);
+  }
+
+  /* Glow effects - Dark mode */
+  .dark .glow {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .dark .glow-strong {
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Card hover effects */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(79, 70, 229, 0.15);
+  }
+
+  .dark .hover-lift:hover {
+    box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+  }
+
+  /* Form result indicators */
+  .result-win {
+    @apply bg-green-500/20 text-green-400 border-green-500/30;
+  }
+
+  .result-draw {
+    @apply bg-yellow-500/20 text-yellow-400 border-yellow-500/30;
+  }
+
+  .result-loss {
+    @apply bg-red-500/20 text-red-400 border-red-500/30;
+  }
+
+  /* Confidence indicators */
+  .confidence-high {
+    @apply text-green-400;
+  }
+
+  .confidence-medium {
+    @apply text-yellow-400;
+  }
+
+  .confidence-low {
+    @apply text-red-400;
+  }
+}
+
+/* Scrollbar styling - Light mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.4);
+}
+
+/* Scrollbar styling - Dark mode */
+.dark::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(79, 70, 229, 0.2);
+  color: inherit;
+}
+
+.dark ::selection {
+  background: rgba(139, 92, 246, 0.3);
 }
